@@ -1,24 +1,15 @@
 FROM resin/rpi-raspbian:jessie
 
-#MAINTAINER Olivier Barais <barais@irisa.fr>
-#MAINTAINER Team_Docker-VideoEncoding
+MAINTAINER Team_Docker-VideoEncoding
 
 
 LABEL status="Dockerfile in development"
-LABEL description="gstreamer with hardware access"
+LABEL description="IPFS on RPi"
 
 
 WORKDIR /
 
 ENV admin="root"
-
-#RUN echo "deb http://vontaene.de/raspbian-updates/ . main" >> /etc/apt/sources.list
-#RUN apt-get update && \
-#apt-get -y upgrade && \
-#apt-get install gstreamer1.0-tools gstreamer1.0-omx  -y && \
-#apt-get install gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly  gstreamer1.0-plugins-good  gstreamer1.0-plugins-base  -y && \
-
-
 
 RUN apt-get update && \
 apt-get -y upgrade && \
