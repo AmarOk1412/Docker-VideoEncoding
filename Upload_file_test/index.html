@@ -1,95 +1,90 @@
 <!DOCTYPE html>
 
 <head>
-<title>Video upload</title>
+<title>Raspberry video upload</title>
+<style type="text/css" media="screen">
+h2 {
+	font-size: 30px;
+	margin-top: 6px;
+	margin-bottom: 10px;
+}
+
+button.Button{
+  -webkit-border-radius: 15;
+  -moz-border-radius: 15;
+  border-radius: 15px;
+  text-shadow: 1px 1px 3px #666666;
+  -webkit-box-shadow: 0px 1px 3px #a3a1a3;
+  -moz-box-shadow: 0px 1px 3px #a3a1a3;
+  box-shadow: 0px 1px 3px #a3a1a3;
+  font-family: Arial;
+  color: #000000;
+  font-size: 25px;
+  background: #ffffff;
+  padding: 10px 10px 10px 10px;
+  border: solid #000000 1px;
+  text-decoration: none;
+  margin-top: 25px;
+  margin-left: 200px;
+  margin-bottom: 25px;
+}
+
+button.Button:hover{
+  background: #d1d1d1;
+  text-decoration: none;
+}
+
+#UploadBox{
+	background: #FFF;
+	padding: 20px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -400px;
+	margin-top: -200px;
+	height: 200px;
+	width: 500px;
+	border: 1px solid #DFDFDF;
+
+	-webkit-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.2);
+
+	-webkit-border-radius: 11px;
+	-moz-border-radius: 11px;
+	border-radius: 11px;
+}
+
+body {
+	background: #F9F9F9;
+	font-family: Calibri;
+	font-size: 18px;
+	
+}
+
+.flotte {
+float : left;
+margin-right : 10px;
+}
+</style>
 <script src="/socket.io/socket.io.js"></script>
 </head>
 
 <body> 
     <div id="UploadBox">
-        <h2>Video Uploader</h2>
+        <h2>Upload a video to the Raspberry</h2>
+		<p class="flotte">
+		<img src="Images/rasp-logo.png" alt="Logo Raspberry" style="width:75px;height:100px;">
+		</p>
         <span id='UploadArea'>
-            <label for="FileBox">Choose A File: </label><input type="file" id="FileBox"><br>
-            <label for="NameBox">Name: </label><input type="text" id="NameBox"><br>
- 
+            <label for="FileBox">Choose a video to upload :</label><input type="file" id="FileBox"><br>
+            <label for="NameBox">[OPTIONAL] Rename the video: </label><input type="text" id="NameBox"><br>
             <button  type='button' id='UploadButton' class='Button'>Upload</button>
         </span>
     </div>
-	
-<script type="text/javascript">
-window.addEventListener("load", Ready); 
- 
-function Ready(){ 
-    if(window.File && window.FileReader){
-        document.getElementById('UploadButton').addEventListener('click', StartUpload);  
-        document.getElementById('FileBox').addEventListener('change', FileChosen);
-    }
-    else
-    {
-        document.getElementById('UploadArea').innerHTML = "Your Browser Doesn't Support The File API Please Update Your Browser";
-    }
-}
-
-var SelectedFile;
-function FileChosen(evnt) {
-    SelectedFile = evnt.target.files[0];
-    document.getElementById('NameBox').value = SelectedFile.name;
-}
-
-var socket = io.connect('http://localhost:8080');
-var FReader;
-var Name;
-function StartUpload(){
-    if(document.getElementById('FileBox').value != "")
-    {
-        FReader = new FileReader();
-        Name = document.getElementById('NameBox').value;
-        var Content = "<span id='NameArea'>Uploading " + SelectedFile.name + " as " + Name + "</span>";
-        Content += '<div id="ProgressContainer"><div id="ProgressBar"></div></div><span id="percent">0%</span>';
-        Content += "<span id='Uploaded'> - <span id='MB'>0</span>/" + Math.round(SelectedFile.size / 1048576) + "MB</span>";
-        document.getElementById('UploadArea').innerHTML = Content;
-        FReader.onload = function(evnt){
-            socket.emit('Upload', { 'Name' : Name, Data : evnt.target.result });
-        }
-        socket.emit('Start', { 'Name' : Name, 'Size' : SelectedFile.size });
-    }
-    else
-    {
-        alert("Please Select A File");
-    }
-}
-
-socket.on('MoreData', function (data){
-    UpdateBar(data['Percent']);
-    var Place = data['Place'] * 524288; //The Next Blocks Starting Position
-    var NewFile; //The Variable that will hold the new Block of Data
-    if(SelectedFile.webkitSlice) 
-        NewFile = SelectedFile.webkitSlice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
-    else
-        NewFile = SelectedFile.slice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
-    FReader.readAsBinaryString(NewFile);
-});
- 
-function UpdateBar(percent){
-    document.getElementById('ProgressBar').style.width = percent + '%';
-    document.getElementById('percent').innerHTML = (Math.round(percent*100)/100) + '%';
-    var MBDone = Math.round(((percent/100.0) * SelectedFile.size) / 1048576);
-    document.getElementById('MB').innerHTML = MBDone;
-}
-
-var Path = "http://localhost/";
-
-socket.on('Done', function (data){
-	var Content = "Video Successfully Uploaded !!"
-	Content += "<img id='Thumb' src='" + Path + data['Image'] + "' alt='" + Name + "'><br>";
-	Content += "<button  type='button' name='Upload' value='' id='Restart' class='Button'>Upload Another</button>";
-	document.getElementById('UploadArea').innerHTML = Content;
-	document.getElementById('Restart').addEventListener('click', Refresh);
-});
-function Refresh(){
-	location.reload(true);
-}
-</script>
+<script src="/client.js"></script>
 </body>
 
 </html>
+
+

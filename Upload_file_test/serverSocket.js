@@ -37,7 +37,7 @@ io.sockets.on('connection', function (socket) {
 				Place = Stat.size / 524288;
 			}
 		}
-		catch(er){} //It's a New File
+		catch(er){}
 		fs.open("Temp/" + Name, "a", 0755, function(err, fd){
 			if(err)
 			{
@@ -45,7 +45,7 @@ io.sockets.on('connection', function (socket) {
 			}
 			else
 			{
-				Files[Name]['Handler'] = fd; //We store the file handler so we can write to it later
+				Files[Name]['Handler'] = fd;
 				socket.emit('MoreData', { 'Place' : Place, Percent : 0 });
 			}
 		});
@@ -55,23 +55,23 @@ io.sockets.on('connection', function (socket) {
         var Name = data['Name'];
         Files[Name]['Downloaded'] += data['Data'].length;
         Files[Name]['Data'] += data['Data'];
-        if(Files[Name]['Downloaded'] == Files[Name]['FileSize']) //If File is Fully Uploaded
+        if(Files[Name]['Downloaded'] == Files[Name]['FileSize'])
         {
             fs.write(Files[Name]['Handler'], Files[Name]['Data'], null, 'Binary', function(err, Writen){
 				var inp = fs.createReadStream("Temp/" + Name);
 				var out = fs.createWriteStream("Video/" + Name);
 				util.pump(inp, out, function(){
-    				fs.unlink("Temp/" + Name, function () { //This Deletes The Temporary File
-						exec("ffmpeg -i Video/" + Name  + " -ss 00:01 -r 1 -an -vframes 1 -f mjpeg Video/" + Name  + ".jpg", function(err){
+    				fs.unlink("Temp/" + Name, function () {
+						exec("ffmpeg -i Video/" + Name  + " -ss 1 -r 1 -an -vframes 1 -f mjpeg Video/" + Name  + ".jpg", function(err){
 						socket.emit('Done', {'Image' : 'Video/' + Name + '.jpg'});
 						});
 					});
 				});
             });
         }
-        else if(Files[Name]['Data'].length > 10485760){ //If the Data Buffer reaches 10MB
+        else if(Files[Name]['Data'].length > 10485760){
             fs.write(Files[Name]['Handler'], Files[Name]['Data'], null, 'Binary', function(err, Writen){
-                Files[Name]['Data'] = ""; //Reset The Buffer
+                Files[Name]['Data'] = "";
                 var Place = Files[Name]['Downloaded'] / 524288;
                 var Percent = (Files[Name]['Downloaded'] / Files[Name]['FileSize']) * 100;
                 socket.emit('MoreData', { 'Place' : Place, 'Percent' :  Percent});
