@@ -18,9 +18,11 @@ RUN apt-get update && \
 
 RUN mkdir /data
 
+RUN git config http.sslVerify "false"
+
 # Install python lib to manage glusterfs
 WORKDIR /usr/src
-RUN git clone http://github.com/disaster37/python-gluster.git
+RUN git clone https://github.com/disaster37/python-gluster.git
 WORKDIR /usr/src/python-gluster
 RUN python setup.py install
 RUN pip install rancher_metadata
