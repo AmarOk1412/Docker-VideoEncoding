@@ -58,7 +58,15 @@ io.sockets.on('connection', function (socket) {
         if(Files[Name]['Downloaded'] == Files[Name]['FileSize']) //If File is Fully Uploaded
         {
             fs.write(Files[Name]['Handler'], Files[Name]['Data'], null, 'Binary', function(err, Writen){
-                //Get Thumbnail Here
+				var inp = fs.createReadStream("Temp/" + Name);
+				var out = fs.createWriteStream("Video/" + Name);
+				util.pump(inp, out, function(){
+    				fs.unlink("Temp/" + Name, function () { //This Deletes The Temporary File
+						exec("ffmpeg -i Video/" + Name  + " -ss 01:30 -r 1 -an -vframes 1 -f mjpeg Video/" + Name  + ".jpg", function(err){
+						socket.emit('Done', {'Image' : 'Video/' + Name + '.jpg'});
+						});
+					});
+				});
             });
         }
         else if(Files[Name]['Data'].length > 10485760){ //If the Data Buffer reaches 10MB

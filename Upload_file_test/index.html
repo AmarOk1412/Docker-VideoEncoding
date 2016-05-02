@@ -66,7 +66,7 @@ socket.on('MoreData', function (data){
     if(SelectedFile.webkitSlice) 
         NewFile = SelectedFile.webkitSlice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
     else
-        NewFile = SelectedFile.mozSlice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
+        NewFile = SelectedFile.slice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
     FReader.readAsBinaryString(NewFile);
 });
  
@@ -76,16 +76,6 @@ function UpdateBar(percent){
     var MBDone = Math.round(((percent/100.0) * SelectedFile.size) / 1048576);
     document.getElementById('MB').innerHTML = MBDone;
 }
-
-var inp = fs.createReadStream("Temp/" + Name);
-var out = fs.createWriteStream("Video/" + Name);
-util.pump(inp, out, function(){
-    fs.unlink("Temp/" + Name, function () { //This Deletes The Temporary File
-		exec("ffmpeg -i Video/" + Name  + " -ss 01:30 -r 1 -an -vframes 1 -f mjpeg Video/" + Name  + ".jpg", function(err){
-			socket.emit('Done', {'Image' : 'Video/' + Name + '.jpg'});
-		});
-	});
-});
 </script>
 </body>
 
