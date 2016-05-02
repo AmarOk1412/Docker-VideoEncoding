@@ -1,10 +1,10 @@
 var Files = {};
 
 var app = require('http').createServer(handler)
-  , io = require('socket.io').listen(app)
-  , fs = require('fs')
-  , exec = require('child_process').exec
-  , util = require('util')
+var io = require('socket.io').listen(app)
+var fs = require('fs')
+var exec = require('child_process').exec
+var util = require('util')
  
 app.listen(8080);
  
@@ -78,14 +78,14 @@ io.sockets.on('connection', function (socket) {
     });
 	
 	socket.on('MoreData', function (data){
-    UpdateBar(data['Percent']);
-    var Place = data['Place'] * 524288; //The Next Blocks Starting Position
-    var NewFile; //The Variable that will hold the new Block of Data
-    if(SelectedFile.webkitSlice) 
-        NewFile = SelectedFile.webkitSlice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
-    else
-        NewFile = SelectedFile.mozSlice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
-    FReader.readAsBinaryString(NewFile);
+		UpdateBar(data['Percent']);
+		var Place = data['Place'] * 524288; //The Next Blocks Starting Position
+		var NewFile; //The Variable that will hold the new Block of Data
+		if(SelectedFile.webkitSlice) 
+			NewFile = SelectedFile.webkitSlice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
+		else
+			NewFile = SelectedFile.mozSlice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
+		FReader.readAsBinaryString(NewFile);
 	});
 	function UpdateBar(percent){
 		document.getElementById('ProgressBar').style.width = percent + '%';
