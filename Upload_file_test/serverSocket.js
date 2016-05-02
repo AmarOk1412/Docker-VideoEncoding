@@ -83,19 +83,5 @@ io.sockets.on('connection', function (socket) {
             var Percent = (Files[Name]['Downloaded'] / Files[Name]['FileSize']) * 100;
             socket.emit('MoreData', { 'Place' : Place, 'Percent' :  Percent});
         }
-    });
-	
-	var Path = "http://localhost/";
- 
-	socket.on('Done', function (data){
-		var Content = "Video Successfully Uploaded !!"
-		Content += "<img id='Thumb' src='" + Path + data['Image'] + "' alt='" + Name + "'><br>";
-		Content += "<button  type='button' name='Upload' value='' id='Restart' class='Button'>Upload Another</button>";
-		document.getElementById('UploadArea').innerHTML = Content;
-		document.getElementById('Restart').addEventListener('click', Refresh);
-	});
-	function Refresh(){
-		location.reload(true);
-	}
-		
+    });	
 });

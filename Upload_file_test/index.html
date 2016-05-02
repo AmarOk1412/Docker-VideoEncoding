@@ -76,6 +76,19 @@ function UpdateBar(percent){
     var MBDone = Math.round(((percent/100.0) * SelectedFile.size) / 1048576);
     document.getElementById('MB').innerHTML = MBDone;
 }
+
+var Path = "http://localhost/";
+
+socket.on('Done', function (data){
+	var Content = "Video Successfully Uploaded !!"
+	Content += "<img id='Thumb' src='" + Path + data['Image'] + "' alt='" + Name + "'><br>";
+	Content += "<button  type='button' name='Upload' value='' id='Restart' class='Button'>Upload Another</button>";
+	document.getElementById('UploadArea').innerHTML = Content;
+	document.getElementById('Restart').addEventListener('click', Refresh);
+});
+function Refresh(){
+	location.reload(true);
+}
 </script>
 </body>
 
