@@ -13,7 +13,7 @@ ENV GLUSTER_REPLICA 2
 
 
 RUN apt-get update && \
-    apt-get install -y glusterfs-server git pip
+    apt-get install -y glusterfs-server git python-pip
 
 
 RUN mkdir /data
