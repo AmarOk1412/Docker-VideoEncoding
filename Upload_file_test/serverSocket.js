@@ -1,10 +1,10 @@
 var Files = {};
 
 var app = require('http').createServer(handler)
-var io = require('socket.io').listen(app)
-var fs = require('fs')
-var exec = require('child_process').exec
-var util = require('util')
+  , io = require('socket.io').listen(app)
+  , fs = require('fs')
+  , exec = require('child_process').exec
+  , util = require('util')
  
 app.listen(8080);
  

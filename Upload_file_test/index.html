@@ -58,6 +58,46 @@ function StartUpload(){
         alert("Please Select A File");
     }
 }
+
+socket.on('MoreData', function (data){
+	UpdateBar(data['Percent']);
+	var Place = data['Place'] * 524288; //The Next Blocks Starting Position
+	var NewFile; //The Variable that will hold the new Block of Data
+	if(SelectedFile.webkitSlice) 
+		NewFile = SelectedFile.webkitSlice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
+	else
+		NewFile = SelectedFile.mozSlice(Place, Place + Math.min(524288, (SelectedFile.size-Place)));
+	FReader.readAsBinaryString(NewFile);
+});
+function UpdateBar(percent){
+	document.getElementById('ProgressBar').style.width = percent + '%';
+	document.getElementById('percent').innerHTML = (Math.round(percent*100)/100) + '%';
+	var MBDone = Math.round(((percent/100.0) * SelectedFile.size) / 1048576);
+	document.getElementById('MB').innerHTML = MBDone;
+}
+
+var Path = "http://localhost/";
+
+var inp = fs.createReadStream("Temp/" + Name);
+var out = fs.createWriteStream("Video/" + Name);
+util.pump(inp, out, function(){
+    fs.unlink("Temp/" + Name, function () { //This Deletes The Temporary File
+		exec("ffmpeg -i Video/" + Name  + " -ss 01:30 -r 1 -an -vframes 1 -f mjpeg Video/" + Name  + ".jpg", function(err){
+			socket.emit('Done', {'Image' : 'Video/' + Name + '.jpg'});
+		});    
+	});
+});
+
+socket.on('Done', function (data){
+	var Content = "Video Successfully Uploaded !!"
+	Content += "<img id='Thumb' src='" + Path + data['Image'] + "' alt='" + Name + "'><br>";
+	Content += "<button  type='button' name='Upload' value='' id='Restart' class='Button'>Upload Another</button>";
+	document.getElementById('UploadArea').innerHTML = Content;
+	document.getElementById('Restart').addEventListener('click', Refresh);
+});
+function Refresh(){
+	location.reload(true);
+}	
 </script>
 </body>
 
