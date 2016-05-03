@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<head>
+<title>Raspberry video upload</title>
+<style type="text/css" media="screen">
+h2 {
+	font-size: 30px;
+	margin-top: 6px;
+	margin-bottom: 10px;
+}
+
+button.Button{
+  -webkit-border-radius: 15;
+  -moz-border-radius: 15;
+  border-radius: 15px;
+  text-shadow: 1px 1px 3px #666666;
+  -webkit-box-shadow: 0px 1px 3px #a3a1a3;
+  -moz-box-shadow: 0px 1px 3px #a3a1a3;
+  box-shadow: 0px 1px 3px #a3a1a3;
+  font-family: Arial;
+  color: #000000;
+  font-size: 25px;
+  background: #ffffff;
+  padding: 10px 10px 10px 10px;
+  border: solid #000000 1px;
+  text-decoration: none;
+  margin-top: 25px;
+  margin-left: 200px;
+  margin-bottom: 25px;
+}
+
+button.Button:hover{
+  background: #d1d1d1;
+  text-decoration: none;
+}
+
+#UploadBox{
+	background: #FFF;
+	padding: 20px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -400px;
+	margin-top: -200px;
+	height: 200px;
+	width: 500px;
+	border: 1px solid #DFDFDF;
+
+	-webkit-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.2);
+	-moz-box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.2);
+	box-shadow: 0px 0px 16px 0px rgba(0,0,0,0.2);
+
+	-webkit-border-radius: 11px;
+	-moz-border-radius: 11px;
+	border-radius: 11px;
+}
+
+body {
+	background: #F9F9F9;
+	font-family: Calibri;
+	font-size: 18px;
+	
+}
+
+.flotte {
+float : left;
+margin-right : 10px;
+}
+</style>
+<script src="/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
+</head>
+
+<body> 
+    <div id="UploadBox">
+        <h2>Upload a video to the Raspberry</h2>
+        <span id='UploadArea'>
+            <label for="FileBox">Choose a video to upload :</label><input type="file" id="FileBox"><br>
+            <label for="NameBox">[OPTIONAL] Rename the video: </label><input type="text" id="NameBox"><br>
+            <button  type='button' id='UploadButton' class='Button'>Upload</button>
+        </span>
+    </div>
+</body>
+
+</html>
+
+
