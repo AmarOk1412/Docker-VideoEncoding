@@ -1,7 +1,7 @@
 # Docker-VideoEncoding
 
 
-## Installation : the graph :
+## Installation of the graph :
 
 Get dependencies using [Bower](http://bower.io/) and Browserify (via npm and grunt):
 
