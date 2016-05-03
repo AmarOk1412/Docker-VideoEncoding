@@ -1,8 +1,10 @@
 # Docker-VideoEncoding
 
 
-Using the graph :
+## Installation : the graph :
 
-bower install
-npm install
-grunt build
+Get dependencies using [Bower](http://bower.io/) and Browserify (via npm and grunt):
+
+    bower install
+    npm install
+    grunt build
