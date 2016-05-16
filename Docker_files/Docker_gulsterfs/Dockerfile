@@ -19,4 +19,4 @@ EXPOSE 111 2049 8080 24007 24008 38465 38466 38467 49152 49153 49154 49156 49157
 
 
 
-CMD [service glusterfs-server start && glusterrestd]
+CMD service glusterfs-server start && glusterrestd
