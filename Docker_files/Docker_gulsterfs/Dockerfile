@@ -9,7 +9,7 @@ RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/aravindavk/glusterfs-res
 WORKDIR glusterfs-rest
 RUN python setup.py install
 RUN ln -s /usr/local/bin/gunicorn /usr/bin/gunicorn
-RUN glusterrest port 8080
+RUN glusterrest port 8080 || true
 RUN glusterrest install
 ln -s /usr/local/bin/gunicorn /usr/bin/gunicorn
 WORKDIR /
