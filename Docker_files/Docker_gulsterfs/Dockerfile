@@ -11,7 +11,7 @@ RUN python setup.py install
 RUN ln -s /usr/local/bin/gunicorn /usr/bin/gunicorn
 RUN glusterrest port 8080 || true
 RUN glusterrest install || true
-ln -s /usr/local/bin/gunicorn /usr/bin/gunicorn
+RUN ln -s /usr/local/bin/gunicorn /usr/bin/gunicorn
 WORKDIR /
 
 RUN mkdir node_storage
