@@ -1,25 +1,47 @@
 var Files = {};
 
+
 var app = require('http').createServer(handler)
   , io = require('socket.io').listen(app)
   , fs = require('fs')
+  , url = require('url')
+  , path = require('path')
   , exec = require('child_process').exec
   , util = require('util')
- 
+
 app.listen(8080);
- 
+console.log('Server start on 0.0.0.0:8080')
+
 function handler (req, res) {
-  fs.readFile(__dirname + '/index.html',
-  function (err, data) {
-    if (err) {
-      res.writeHead(500);
-      return res.end('Error loading index.html');
-    }
-    res.writeHead(200);
-    res.end(data);
-  });
+
+  var myPath = url.parse(req.url).pathname;
+  console.log("GET " + myPath);
+  switch (myPath) {
+    case '/':
+      fs.readFile(__dirname + '/index.html',
+      function (err, data) {
+        if (err) {
+          res.writeHead(500);
+          return res.end('Error loading index.html');
+        }
+        res.writeHead(200);
+        res.end(data);
+      });
+      break;
+    default:
+      fs.readFile(__dirname + myPath,
+      function (err, data) {
+        if (err) {
+          res.writeHead(500);
+          return res.end('Error loading index.html');
+        }
+        res.writeHead(200);
+        res.end(data);
+      });
+      break;
+  }
 }
- 
+
 io.sockets.on('connection', function (socket) {
 	socket.on('Start', function (data) { //data contains the variables that we passed through in the html file
 		var Name = data['Name'];
@@ -50,8 +72,8 @@ io.sockets.on('connection', function (socket) {
 			}
 		});
 	});
-	
-	socket.on('Upload', function (data){
+
+	socket.on('uploadBtn', function (data){
         var Name = data['Name'];
         Files[Name]['Downloaded'] += data['Data'].length;
         Files[Name]['Data'] += data['Data'];
@@ -83,5 +105,5 @@ io.sockets.on('connection', function (socket) {
             var Percent = (Files[Name]['Downloaded'] / Files[Name]['FileSize']) * 100;
             socket.emit('MoreData', { 'Place' : Place, 'Percent' :  Percent});
         }
-    });	
+    });
 });
