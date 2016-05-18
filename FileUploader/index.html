@@ -1,39 +1,40 @@
-<!DOCTYPE html>
-
+<html>
 <head>
-	<title>Video encoder</title>
-	<link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="icon" type="image/png" href="img/process.png">
+  <title>Kiwi-Encode</title>
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <link rel="icon" type="image/png" href="img/process.png">
 </head>
-
 <body>
-	<!--TODO add logo + link to github ?-->
-	<div id="UploadBox">
-		<h2>Encode a video with Docker-EncodeVideo</h2>
-		<div id="steps">
-			<div id="step">
-				<h3>1. Choose a video</h3>
-				<div class="fileUpload btn btn-primary">
-					<button  type='button' id='chooseButton' class='Button'><img src="img/upload.png" alt="upload"/></button>
-					<input id="uploadBtn" type="file" class="upload" />
-				</div>
-			</div>
-			<div id="step">
-				<h3>2. Rename the video</h3>
-				<input id="NameBox" type="text" placeholder="" />
-			</div>
-			<div id="step">
-				<h3>3. Encode!</h3>
-				<button  type='button' id='UploadButton' class='Button'><img src="img/process.png" alt="encode"/></button>
-			</div>
-		</div>
-	</div>
+  <div id="UploadBox">
+    <h2>Encode a video with Kiwi-Encode</h2>
+    <form id="uploadForm"
+    enctype="multipart/form-data"
+    action="/upload"
+    method="post">
+    <div id="steps">
+      <div id="step">
+        <h3>1. Choose a video</h3>
+        <div class="fileUpload btn btn-primary">
+          <button  type='button' id='chooseButton' class='Button'><img src="img/upload.png" alt="upload"/></button>
+          <input id="uploadBtn" type="file" class="upload" name="userPhoto" />
+        </div>
+      </div>
+      <div id="step">
+        <h3>2. Rename the video</h3>
+        <input id="name" type="text" placeholder="" />
+        <h3>And choose bitrate</h3>
+        <input id="bitrate" type="text" placeholder="" />
+      </div>
+      <div id="step">
+        <h3>3. Encode!</h3>
+        <button  type='submit' name="submit" id='UploadButton' class='Button'><img src="img/process.png" alt="encode"/></button>
+        <span id = "status"></span>
+      </div>
+    </div>
+  </form>
+</div>
 
-	<footer></footer>
-
-	<script src="/socket.io/socket.io.js"></script>
-	<script src="client.js"></script>
-	<script src="js/body.js"></script>
+<footer>Kiwi-Encode - ESIR2 - Sébastien Blin, Pierre Le Corre, Maxime Servais, Jordan Bachelin, Merwan Kaf - Jérémy Delvinquier - 2016</footer>
 </body>
-
+<script src="js/body.js"></script>
 </html>
