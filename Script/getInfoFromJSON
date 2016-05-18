@@ -1,0 +1,9 @@
+grep -oE \"\([[:alnum:]]\|_\|\\.\)*\" toEncode_1463584934592.json
+"toEncode"
+"toEncode_1463584934592"
+"original_name"
+"main.cpp"
+"wanted_name"
+"final.cpp"
+"bitrate"
+"30000"

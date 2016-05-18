@@ -8,6 +8,7 @@ if [ -f /etc/redhat-release ]; then
 	soft='ffmpeg'
 fi
 
+#1: file, 2: split
 if [ "$#" -ne 2 ]; then
 	echo "Illegal number of parameters"
 else
@@ -17,7 +18,6 @@ else
 
 	totalTime=$(ffprobe -v quiet -of csv=p=0 -show_entries format=duration "$1")
 	echo $totalTime
-
 
 	ffprobe -v quiet -show_frames -select_streams v -print_format json=c=1 "$1" | grep -Po '("key_frame": 1).*("pkt_pts_time": ")[0-9]*\.[0-9]*' | grep -Po '(?<="pkt_pts_time": ")[0-9]*\.[0-9]*' > key_frame.txt
 	sed 1d key_frame.txt -i
