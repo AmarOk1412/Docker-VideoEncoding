@@ -8,9 +8,11 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/aravindavk/glusterfs-rest.git
 WORKDIR glusterfs-rest
 RUN python setup.py install
+RUN ln -s /usr/local/bin/gunicorn /usr/bin/gunicorn
 RUN glusterrest port 8080 || true
 RUN glusterrest install || true
 RUN glusterrest useradd pi -g glusterroot --password toor
+
 WORKDIR /
 
 RUN mkdir node_storage
