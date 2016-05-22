@@ -1,6 +1,8 @@
 var express	=	require("express");
 var multer	=	require('multer');
 var jsonfile = require('jsonfile');
+var cp = require("child_process");
+
 var app	=	express();
 app.use("/css", express.static(__dirname + '/css'));
 app.use("/js", express.static(__dirname + '/js'));
@@ -46,6 +48,7 @@ app.post('/upload',function(req,res){
     if(err) {
       return res.end("Error uploading file.");
     }
+    cp.exec("python3 script/mkWorkflow.py");
     res.end("File is uploaded");
   });
 });
