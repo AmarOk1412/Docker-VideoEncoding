@@ -13,8 +13,13 @@ if [ "$#" -ne 2 ]; then
 	echo "Illegal number of parameters"
 else
 
+	inputFile
+	outputFile
+
 	> file.txt
 	> key_frame.txt
+	
+	
 
 	totalTime=$(ffprobe -v quiet -of csv=p=0 -show_entries format=duration "$1")
 	echo $totalTime
@@ -68,5 +73,4 @@ else
 	"$soft" -y -i "$1" -ss $startTime -t "$splitTime" -codec copy test"$fileCurrentNumber".mp4
 	echo "file 'test"$fileCurrentNumber".mp4'" >> file.txt
 
-	"$soft" -y -f concat -i file.txt -c copy testComplet.mp4
 fi
