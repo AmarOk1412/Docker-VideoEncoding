@@ -48,7 +48,7 @@ app.post('/upload',function(req,res){
     if(err) {
       return res.end("Error uploading file.");
     }
-    cp.exec("python3 script/mkWorkflow.py");
+    cp.exec("python3 script/mkWorkflow.py " + fname);
     res.end("File is uploaded");
   });
 });
