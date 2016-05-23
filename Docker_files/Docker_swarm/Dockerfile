@@ -10,8 +10,8 @@ WORKDIR /
 ENV admin="root"
 
 RUN apt-get update && apt-get install git wget -y
-RUN wget http://storage.googleapis.com/golang/go1.6.2.linux-armv6l.tar.gz
-RUN tar xzvf go1.6.2.linux-armv6l.tar.gz
+RUN wget https://github.com/hypriot/golang-armbuilds/releases/download/v1.5.2/go1.5.2.linux-armv6.tar.gz
+RUN tar xzvf go1.5.2.linux-armv6.tar.gz
 RUN mv go /usr/local/
 RUN mkdir ~/gocode
 
