@@ -31,5 +31,4 @@ RUN git clone https://github.com/AmarOk1412/swarm.git
 WORKDIR swarm
 RUN go install .
 
-ADD run.sh run.sh
-CMD ["/bin/bash" "run.sh"]
+CMD ["/bin/bash"]
