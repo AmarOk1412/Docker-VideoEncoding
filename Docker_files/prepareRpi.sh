@@ -5,7 +5,7 @@ sed -i "s/raspberrypi/$1/g" /etc/hosts
 /etc/init.d/hostname.sh
 
 curl -s https://packagecloud.io/install/repositories/Hypriot/Schatzkiste/script.deb.sh | bash
-apt-get install -y docker-hypriot git 
+apt-get install -y docker-hypriot git glusterfs-client
 systemctl enable docker
 
 usermod -a -G docker pi
