@@ -1,6 +1,5 @@
 FROM resin/rpi-raspbian:jessie
 
-#MAINTAINER Olivier Barais <barais@irisa.fr>
 MAINTAINER Team_Docker-VideoEncoding
 
 LABEL status="Dockerfile in development"
@@ -12,10 +11,8 @@ ENV admin="root"
 
 RUN apt-get update && \
 apt-get -y upgrade && \
-apt-get install -y git libav-tools bc
-RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/AmarOk1412/Docker-VideoEncoding.git
+apt-get install -y libav-tools bc
 
-WORKDIR Docker-VideoEncoding
-WORKDIR Script
+ADD ScriptSplit.sh ScriptSplit.sh
 
 CMD ["/bin/bash","ScriptSplit.sh"]

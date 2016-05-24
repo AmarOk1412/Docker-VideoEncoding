@@ -1,10 +1,9 @@
 FROM resin/rpi-raspbian:jessie
 
-#MAINTAINER Olivier Barais <barais@irisa.fr>
 MAINTAINER Team_Docker-VideoEncoding
 
 LABEL status="Dockerfile in development"
-LABEL description="Split"
+LABEL description="Merge"
 
 WORKDIR /
 
@@ -12,10 +11,8 @@ ENV admin="root"
 
 RUN apt-get update && \
 apt-get -y upgrade && \
-apt-get install -y git
-RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/AmarOk1412/Docker-VideoEncoding.git
+apt-get install -y libav-tools bc
 
-WORKDIR Docker-VideoEncoding
-WORKDIR Script
+ADD ScriptMerge.sh ScriptMerge.sh
 
-CMD ["/bin/bash","ScriptSplit.sh"]
+CMD ["/bin/bash","ScriptMerge.sh"]
