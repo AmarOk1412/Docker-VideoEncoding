@@ -15,13 +15,13 @@ if [ "$#" -ne 2 ]; then
 	echo "Illegal number of parameters"
 else
 
-	inputFile=$(grep -Po '(?<="original_name":")[^"]*' "$directory.$1.json")
-	outputFile=$(grep -Po '(?<="wanted_name":")[^"]*' "$directory.$1.json")
+	inputFile="$directory"$(grep -Po '(?<="original_name":")[^"]*' "$directory""$1.json")
+	outputFile="$directory"$(grep -Po '(?<="wanted_name":")[^"]*' "$directory""$1.json")
 	echo inputFile : $inputFile
 	echo outputFile : $outputFile
 	outputFileName=$(echo $outputFile | cut -f1 -d '.')
 
-	> $directory.$1.part
+	> "$directory"$1.part
 	> "$inputFile"_key_frame.txt
 
 	if [ -f /etc/redhat-release ]; then
@@ -61,7 +61,7 @@ else
     		echo -e Split number: $fileCurrentNumber${neutre}
 
     		"$soft" -y -i "$inputFile" -ss $startTime -t "$splitTime" -codec copy "$outputFileName"_part_"$fileCurrentNumber".mp4
-		echo "file '"$outputFileName"_part_"$fileCurrentNumber".mp4'" >> "$directory.$1".part
+		echo "file '"$outputFileName"_part_"$fileCurrentNumber".mp4'" >> "$directory""$1".part
 
 		startTime=$endTime
 
@@ -76,6 +76,6 @@ else
     	echo -e Split number: $fileCurrentNumber${neutre}
 
 	"$soft" -y -i "$inputFile" -ss $startTime -t "$splitTime" -codec copy "$outputFileName"_part_"$fileCurrentNumber".mp4
-	echo "file '"$outputFileName"_part_"$fileCurrentNumber".mp4'" >> $directory.$1.part
+	echo "file '"$outputFileName"_part_"$fileCurrentNumber".mp4'" >> "$directory""$1".part
 
 	fi
