@@ -1,6 +1,7 @@
 #!/bin/bash
 bleufonce='\e[0;34m'
 neutre='\e[0;m'
+directory='/uploads/'
 
 soft='avconv'
 probe='avprobe'
@@ -14,23 +15,23 @@ if [ "$#" -ne 2 ]; then
 	echo "Illegal number of parameters"
 else
 
-	inputFile=$(grep -Po '(?<="original_name":")[^"]*' "$1.json")
-	outputFile=$(grep -Po '(?<="wanted_name":")[^"]*' "$1.json")
+	inputFile=$(grep -Po '(?<="original_name":")[^"]*' "$directory.$1.json")
+	outputFile=$(grep -Po '(?<="wanted_name":")[^"]*' "$directory.$1.json")
 	echo inputFile : $inputFile
 	echo outputFile : $outputFile
 	outputFileName=$(echo $outputFile | cut -f1 -d '.')
-	
-	> $1.part
-	> "$inputFile"_key_frame.txt	
+
+	> $directory.$1.part
+	> "$inputFile"_key_frame.txt
 
 	if [ -f /etc/redhat-release ]; then
 		totalTime=$(ffprobe -v quiet -of csv=p=0 -show_entries format=duration "$inputFile")
 		ffprobe -v quiet -show_frames -select_streams v -print_format json=c=1 "$inputFile" | grep -Po '("key_frame": 1).*("pkt_pts_time": ")[0-9]*\.[0-9]*' | grep -Po '(?<="pkt_pts_time": ")[0-9]*\.[0-9]*' > "$inputFile"_key_frame.txt
 	else
 		totalTime=$(avprobe -v quiet -show_entries format=duration "$inputFile"|grep -Po '(?<=duration=)[0-9]*\.[0-9]*')
-		avprobe -v quiet -show_packets -select_streams v -print_format json=c=1 "$inputFile" | grep '"flags": "K"' | grep -Po '(?<="pts_time": ")[0-9]*\.[0-9]*' > "$inputFile"_key_frame.txt	
+		avprobe -v quiet -show_packets -select_streams v -print_format json=c=1 "$inputFile" | grep '"flags": "K"' | grep -Po '(?<="pts_time": ")[0-9]*\.[0-9]*' > "$inputFile"_key_frame.txt
 	fi
-	
+
 	echo video duration : $totalTime
 
 	sed 1d "$inputFile"_key_frame.txt -i
@@ -60,7 +61,7 @@ else
     		echo -e Split number: $fileCurrentNumber${neutre}
 
     		"$soft" -y -i "$inputFile" -ss $startTime -t "$splitTime" -codec copy "$outputFileName"_part_"$fileCurrentNumber".mp4
-		echo "file '"$outputFileName"_part_"$fileCurrentNumber".mp4'" >> "$1".part
+		echo "file '"$outputFileName"_part_"$fileCurrentNumber".mp4'" >> "$directory.$1".part
 
 		startTime=$endTime
 
@@ -75,6 +76,6 @@ else
     	echo -e Split number: $fileCurrentNumber${neutre}
 
 	"$soft" -y -i "$inputFile" -ss $startTime -t "$splitTime" -codec copy "$outputFileName"_part_"$fileCurrentNumber".mp4
-	echo "file '"$outputFileName"_part_"$fileCurrentNumber".mp4'" >> $1.part
+	echo "file '"$outputFileName"_part_"$fileCurrentNumber".mp4'" >> $directory.$1.part
 
 	fi

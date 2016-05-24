@@ -12,7 +12,7 @@ ENV admin="root"
 
 RUN apt-get update && \
 apt-get -y upgrade && \
-apt-get install -y git
+apt-get install -y git libav-tools bc
 RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/AmarOk1412/Docker-VideoEncoding.git
 
 WORKDIR Docker-VideoEncoding
