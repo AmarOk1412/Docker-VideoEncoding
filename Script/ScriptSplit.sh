@@ -29,7 +29,11 @@ else
 		ffprobe -v quiet -show_frames -select_streams v -print_format json=c=1 "$inputFile" | grep -Po '("key_frame": 1).*("pkt_pts_time": ")[0-9]*\.[0-9]*' | grep -Po '(?<="pkt_pts_time": ")[0-9]*\.[0-9]*' > "$inputFile"_key_frame.txt
 	else
 		totalTime=$(avprobe -show_format_entry duration -v quiet "$inputFile")
-		avprobe -v quiet -show_packets -select_streams v -print_format json=c=1 "$inputFile" | grep '"flags": "K"' | grep -Po '(?<="pts_time": ")[0-9]*\.[0-9]*' > "$inputFile"_key_frame.txt
+		avprobe -show_packets -of json "$inputFile" | awk '
+$0 ~ /"pts_time" : "([0-9]|\.)*"/ {toPrint=$3}
+$0 ~ /"flags" : "K"/ {print toPrint}
+' | grep -oE \([0-9]\|\\\.\)*
+ > "$inputFile"_key_frame.txt
 	fi
 
 	echo video duration : $totalTime
