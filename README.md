@@ -24,3 +24,5 @@ Problem : css and images are not working on that way
 # TODO
 
 `docker run -it -p 3000:3000 --volume-driver=glusterfs --volume /uploads:/uploads --name fileuploader fileuploader`
+
+- share /script/mkWorkflow & /uploads
