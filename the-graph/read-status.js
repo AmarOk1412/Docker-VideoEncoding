@@ -44,7 +44,8 @@ containerList.push(ct1);
 containerList.push(ct2);
 containerList.push(ct3);
 
-function convertToPhotobooth(jsonData){
+function convertToPhotobooth(){
+	console.log("Je suis bien dans la convertToPhotobooth")
 	var jsonRet = {};
 	jsonRet.id = "swarmGraph";
 	jsonRet.properties = {};
@@ -66,12 +67,13 @@ function convertToPhotobooth(jsonData){
 		jsonRet.processes[nodeName] = {};
 		jsonRet.processes[nodeName].component="A REMPLIR"; //A remplir
 		jsonRet.processes[nodeName].metadata={};
-		jsonRet.processes[nodeName].metadata.x="100"; //A changer
-		jsonRet.processes[nodeName].metadata.y="100"; //A changer
+		jsonRet.processes[nodeName].metadata.x=100+(i*50); //A changer
+		jsonRet.processes[nodeName].metadata.y=100+(i*50); //A changer
 		jsonRet.processes[nodeName].metadata.label=containerList[i].Image; //A changer
 	}
 	jsonRet.connections=[];
 	console.log(JSON.stringify(jsonRet));
+	return jsonRet;
 }
 
-convertToPhotobooth(containerList);
+//convertToPhotobooth(containerList);
