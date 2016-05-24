@@ -39,7 +39,7 @@ app.post('/upload',function(req,res){
     console.log(brate);
     var jsonfile = require('jsonfile');
 
-    var file = 'uploads/'+fname+'.json';
+    var file = '/uploads/'+fname+'.json';
     var obj = {toEncode: fname, original_name: originalName, wanted_name: wantedName, bitrate: brate};
 
     jsonfile.writeFile(file, obj, function (err) {
