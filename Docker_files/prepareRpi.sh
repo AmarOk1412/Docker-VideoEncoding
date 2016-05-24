@@ -11,13 +11,13 @@ systemctl enable docker
 usermod -a -G docker pi
 
 wget --no-check-certificate https://bfb87ab16c3c18c716b289fef83f99937c01c202.googledrive.com/host/0B3yka9lv3tmsT0M2Y3Q2aVV2cHc/docker-volume-glusterfs -P /usr/local/bin
-#wget --no-check-certificate https://bfb87ab16c3c18c716b289fef83f99937c01c202.googledrive.com/host/0B3yka9lv3tmsT0M2Y3Q2aVV2cHc/swarm -P /usr/local/bin
 chmod 755 /usr/local/bin/docker-volume-glusterfs
-#chmod 755 /usr/local/bin/swarm
 
 docker pull mastertheif/swarm
 docker pull mastertheif/rpi-glusterfs-rest
 docker run -d --privileged=true --net=host --restart="always" --name server_gluster -P mastertheif/rpi-glusterfs-rest
+
+crontab -l | { cat; echo "@reboot sudo docker-volume-glusterfs -servers node1:node2:node3 &"; } | crontab -
 
 
 reboot
