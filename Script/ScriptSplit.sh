@@ -17,7 +17,8 @@ else
 	inputFile=$(grep -Po '(?<="original_name":")[^"]*' "$1.json")
 	outputFile=$(grep -Po '(?<="wanted_name":")[^"]*' "$1.json")
 	echo inputFile : $inputFile
-	echo onputFile : $onputFile
+	echo outputFile : $outputFile
+	outputFileName=$(echo $outputFile | cut -f1 -d '.')
 	
 	> $1.part
 	> "$inputFile"_key_frame.txt	
@@ -58,8 +59,8 @@ else
     		echo Split duration: $splitTime
     		echo -e Split number: $fileCurrentNumber${neutre}
 
-    		"$soft" -y -i "$inputFile" -ss $startTime -t "$splitTime" -codec copy "$outputFile"_part_"$fileCurrentNumber".mp4
-		echo "file '"$outputFile"_part_"$fileCurrentNumber".mp4'" >> "$1".part
+    		"$soft" -y -i "$inputFile" -ss $startTime -t "$splitTime" -codec copy "$outputFileName"_part_"$fileCurrentNumber".mp4
+		echo "file '"$outputFileName"_part_"$fileCurrentNumber".mp4'" >> "$1".part
 
 		startTime=$endTime
 
@@ -73,7 +74,7 @@ else
     	echo Split duration: $splitTime
     	echo -e Split number: $fileCurrentNumber${neutre}
 
-	"$soft" -y -i "$inputFile" -ss $startTime -t "$splitTime" -codec copy "$outputFile"_part_"$fileCurrentNumber".mp4
-	echo "file '"$outputFile"_part_"$fileCurrentNumber".mp4'" >> $1.part
+	"$soft" -y -i "$inputFile" -ss $startTime -t "$splitTime" -codec copy "$outputFileName"_part_"$fileCurrentNumber".mp4
+	echo "file '"$outputFileName"_part_"$fileCurrentNumber".mp4'" >> $1.part
 
 	fi
