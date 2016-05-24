@@ -15,8 +15,8 @@ if [ "$#" -ne 2 ]; then
 	echo "Illegal number of parameters"
 else
 
-	inputFile=$(grep -Po '(?<="original_name":")[^"]*' "$directory""$1.json")
-	outputFile=$(grep -Po '(?<="wanted_name":")[^"]*' "$directory""$1.json")
+	inputFile="$directory"$(grep -Po '(?<="original_name":")[^"]*' "$directory""$1.json")
+	outputFile="$directory"$(grep -Po '(?<="wanted_name":")[^"]*' "$directory""$1.json")
 	echo inputFile : $inputFile
 	echo outputFile : $outputFile
 	outputFileName=$(echo $outputFile | cut -f1 -d '.')
