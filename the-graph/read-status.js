@@ -6,18 +6,15 @@ class Container{
 	}
 }
 
-var ContainerList = new Array();
+var containerList = new Array();
   
+/*  
 function getStatus(){
 	var xhr = new XMLHttpRequest();
 	xhr.open('GET', "http://192.168.1.140/containers/json&all=True&size=False", true);
 	xhr.send();
 	console.log("Envoie de la requête de récupération des status.");
 	xhr.addEventListener("readystatechange", processRequest, false);
-
-	/*
-	 * Handler de la réception de la réponse
-	 */
 
 	function processRequest(e){
 		console.log("Le serveur a répondu a la requête de récupération des status.");
@@ -38,6 +35,14 @@ function getStatus(){
 		}
 	}
 }
+*/
+
+var ct1 = new Container("Nom1","Image1","Exited");
+var ct2 = new Container("Nom2","Image2","Running");
+var ct3 = new Container("Nom3","Image3","Running");
+containerList.push(ct1);
+containerList.push(ct2);
+containerList.push(ct3);
 
 function convertToPhotobooth(jsonData){
 	var jsonRet = {};
@@ -55,17 +60,18 @@ function convertToPhotobooth(jsonData){
 	jsonRet.outports = {};
 	jsonRet.outports.image = { "process" : "encodedFile", "port" : "out", "metadata" : { "x" : 2000, "y" : 1000 } };
 	jsonRet.groups = [];
-	jsonRet.processes=={};
-	for(var i in ContainerList){
+	jsonRet.processes={};
+	for(var i in containerList){
 		var nodeName = "node"+i;
-		jsonRet.processes[nodeName] ={};
+		jsonRet.processes[nodeName] = {};
 		jsonRet.processes[nodeName].component="A REMPLIR"; //A remplir
 		jsonRet.processes[nodeName].metadata={};
 		jsonRet.processes[nodeName].metadata.x="100"; //A changer
 		jsonRet.processes[nodeName].metadata.y="100"; //A changer
-		jsonRet.processes[nodeName].metadata.label=ContainerList[i].Image; //A changer
+		jsonRet.processes[nodeName].metadata.label=containerList[i].Image; //A changer
 	}
 	jsonRet.connections=[];
+	console.log(JSON.stringify(jsonRet));
 }
 
-getStatus();
+convertToPhotobooth(containerList);
