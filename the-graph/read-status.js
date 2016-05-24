@@ -50,15 +50,21 @@ function convertToPhotobooth(jsonData){
 	jsonRet.properties.environnement.width=300;
 	jsonRet.properties.environnement.height=300;
 	jsonRet.properties.environnement.content="    <video id=\"vid\" autoplay loop width=\"640\" height=\"480\" style=\"display:none;\"></video>\n    <canvas id=\"out\" width=\"640\" height=\"480\" style=\"max-width:100%;\"></canvas>\n\n<input id=\"slider\" type=\"range\" min=\"0\" max=\"1\" value=\"0.5\" step=\"0.01\"></input>\n    <button id=\"start\">start camera</button>\n    <button id=\"prev\">prev</button>\n    <button id=\"next\">next</button>\n    <button id=\"save\">save</button>\n\n<style>\n  #saved img { width: 160px; height: 120px;}\n</style>\n<div id=\"saved\"></div>";
+	jsonRet.inports = {};
+	jsonRet.inports.prev = { "process" : "fileToEncode", "port" : "prev", "metadata" : { "x" : 0, "y" : 144 } };
+	jsonRet.outports = {};
+	jsonRet.outports.image = { "process" : "encodedFile", "port" : "out", "metadata" : { "x" : 2000, "y" : 1000 } };
+	jsonRet.groups = [];
 	jsonRet.processes=={};
-		for(var i in ContainerList){
-			jsonRet.processes.node+i={};
-			jsonRet.processes.node+i.component="A REMPLIR"; //A remplir
-			jsonRet.processes.node+i.metadata={};
-			jsonRet.processes.node+i.metadata.x="100"; //A changer
-			jsonRet.processes.node+i.metadata.y="100"; //A changer
-			jsonRet.processes.node+i.metadata.label=ContainerList[i].Image; //A changer
-		}
+	for(var i in ContainerList){
+		var nodeName = "node"+i;
+		jsonRet.processes[nodeName] ={};
+		jsonRet.processes[nodeName].component="A REMPLIR"; //A remplir
+		jsonRet.processes[nodeName].metadata={};
+		jsonRet.processes[nodeName].metadata.x="100"; //A changer
+		jsonRet.processes[nodeName].metadata.y="100"; //A changer
+		jsonRet.processes[nodeName].metadata.label=ContainerList[i].Image; //A changer
+	}
 	jsonRet.connections=[];
 }
 
