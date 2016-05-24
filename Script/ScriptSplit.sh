@@ -15,7 +15,7 @@ if [ "$#" -ne 2 ]; then
 	echo "Illegal number of parameters"
 else
 
-	inputFile="$directory"$(grep -Po '(?<="original_name":")[^"]*' "$directory""$1.json")
+	inputFile="$directory"$(grep -Po '(?<="toEncode":")[^"]*' "$directory""$1.json")
 	outputFile="$directory"$(grep -Po '(?<="wanted_name":")[^"]*' "$directory""$1.json")
 	echo inputFile : $inputFile
 	echo outputFile : $outputFile
@@ -28,7 +28,7 @@ else
 		totalTime=$(ffprobe -v quiet -of csv=p=0 -show_entries format=duration "$inputFile")
 		ffprobe -v quiet -show_frames -select_streams v -print_format json=c=1 "$inputFile" | grep -Po '("key_frame": 1).*("pkt_pts_time": ")[0-9]*\.[0-9]*' | grep -Po '(?<="pkt_pts_time": ")[0-9]*\.[0-9]*' > "$inputFile"_key_frame.txt
 	else
-		totalTime=$(avprobe -v quiet -show_entries format=duration "$inputFile"|grep -Po '(?<=duration=)[0-9]*\.[0-9]*')
+		totalTime=$(avprobe -show_format_entry duration -v quiet "$inputFile")
 		avprobe -v quiet -show_packets -select_streams v -print_format json=c=1 "$inputFile" | grep '"flags": "K"' | grep -Po '(?<="pts_time": ")[0-9]*\.[0-9]*' > "$inputFile"_key_frame.txt
 	fi
 
