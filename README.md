@@ -59,10 +59,10 @@ Problem : css and images are not working on that way
 
 # TODO
 
-`docker run -it -p 3000:3000 --volume-driver=glusterfs --volume /uploads:/uploads --name fileuploader fileuploader`
+`docker run -it -p 3000:3000 --volume-driver=glusterfs --volume uploads:/uploads --name fileuploader fileuploader`
 
-`docker run -it --volume-driver=glusterfs --volume /uploads:/uploads --name split split /bin/bash ScriptSplit.sh $FILENAME$ $NB$`
+`docker run -it --volume-driver=glusterfs --volume uploads:/uploads --name split split /bin/bash ScriptSplit.sh $FILENAME$ $NB$`
 
-`docker run -it --volume-driver=glusterfs --volume /uploads:/uploads --name merge merge /bin/bash ScriptMerge.sh $FILENAME$`
+`docker run --rm -it --volume-driver=glusterfs --volume uploads:/uploads --name merge merge /bin/bash ScriptMerge.sh $FILENAME$`
 
 - share /script/mkWorkflow & /uploads
