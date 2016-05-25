@@ -5,7 +5,7 @@ sed -i "s/raspberrypi/$1/g" /etc/hosts
 /etc/init.d/hostname.sh
 
 curl -s https://packagecloud.io/install/repositories/Hypriot/Schatzkiste/script.deb.sh | bash
-apt-get install -y docker-hypriot git glusterfs-client
+apt-get install -y docker-hypriot git glusterfs-client nmap
 systemctl enable docker
 
 usermod -a -G docker pi
@@ -16,9 +16,11 @@ chmod 755 /usr/local/bin/docker-volume-glusterfs
 docker pull mastertheif/swarm
 docker pull mastertheif/rpi-glusterfs-rest
 
+wget --no-check-certificate https://raw.githubusercontent.com/AmarOk1412/Docker-VideoEncoding/master/Docker_files/rolling_gluster.sh -P /
+
 crontab -l | { cat; echo "@reboot docker rm server_gluster; docker run -d --privileged=true --net=host --name server_gluster -P mastertheif/rpi-glusterfs-rest"; } | crontab -
 
-crontab -l | { cat; echo "@reboot sudo docker-volume-glusterfs -servers node1:node2:node3 &"; } | crontab -
+crontab -l | { cat; echo "@reboot sudo docker-volume-glusterfs -servers node1 &"; } | crontab -
 
 
 
