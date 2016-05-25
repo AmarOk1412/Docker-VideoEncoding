@@ -6,6 +6,58 @@ class Container{
 	}
 }
 
+function countEncodeImg(){
+	nbEncode = 0;
+	for(var i in containerList){
+		if(containerList[i].Image.substring(0,6)=="encode"){
+			nbEncode++;
+		}
+	return nbEncode;
+}
+
+function loadLibrary(){
+	var library={};
+	var nbEncode = countEncodeImg();
+	library.mergeComp = {
+			"name" : "merge",
+            "description" : "merge the parts of the video",
+            "icon" : "camera",
+            "inports" : [],
+            "outports" : [
+              {"name": "out", "type": "all"}
+            ]
+	};
+	for(var i=0; i<nbEncode; i++){
+			var portName = "in"+i
+			library.mergeComp.inports.push({"name" : portName, "type" : "all"})
+	}
+	library.splitComp = {			
+			"name" : "split",
+            "description" : "split the video into parts",
+            "icon" : "camera",
+            "inports" : [
+				{"name": "in", "type": "all"}
+			],
+            "outports": []
+	};
+	for(var i=0; i<nbEncode; i++){
+		var portName = "out"+i
+		library.splitComp.outports.push({"name" : portName, "type" : "all"})
+	}
+	library.encodeComp = {			
+			"name" : "encode",
+            "description" : "encoding component",
+            "icon" : "eye",
+            "inports" : [
+				{"name": "in", "type": "all"}
+			],
+            "outports" : [
+				{"name": "out", "type": "all"}
+            ]
+	};
+	return library;
+}
+
 var containerList = new Array();
   
 /*  
@@ -37,13 +89,18 @@ function getStatus(){
 }
 */
 
-var ct1 = new Container("Nom1","Image1","Exited");
-var ct2 = new Container("Nom2","Image2","Running");
-var ct3 = new Container("Nom3","Image3","Running");
+var ct1 = new Container("Nom1","split","exited");
+var ct2 = new Container("Nom2","encode0","running");
+var ct3 = new Container("Nom3","encode1","running");
+var ct4 = new Container("Nom3","merge","running");
 containerList.push(ct1);
 containerList.push(ct2);
 containerList.push(ct3);
+containerList.push(ct4);
 
+
+
+//Génére le JSON permettant d'afficher le graph
 function convertToPhotobooth(){
 	console.log("Je suis bien dans la convertToPhotobooth")
 	var jsonRet = {};
@@ -63,15 +120,59 @@ function convertToPhotobooth(){
 	jsonRet.groups = [];
 	jsonRet.processes={};
 	for(var i in containerList){
-		var nodeName = "node"+i;
+		var nomImg = containerList[i].Image;
+		var nodeName = nomImg;
 		jsonRet.processes[nodeName] = {};
-		jsonRet.processes[nodeName].component="A REMPLIR"; //A remplir
+		if(nomImg.substring(0,6)=="encode"){
+			jsonRet.processes[nodeName].component="encode";	
+		}
+		else{
+			jsonRet.processes[nodeName].component=nomImg;
+	
+		}
 		jsonRet.processes[nodeName].metadata={};
-		jsonRet.processes[nodeName].metadata.x=100+(i*50); //A changer
-		jsonRet.processes[nodeName].metadata.y=100+(i*50); //A changer
-		jsonRet.processes[nodeName].metadata.label=containerList[i].Image; //A changer
+		jsonRet.processes[nodeName].metadata.x=100+(i*100); //A changer
+		jsonRet.processes[nodeName].metadata.y=100+(i*100); //A changer
+		jsonRet.processes[nodeName].metadata.label=nomImg; //A changer
 	}
 	jsonRet.connections=[];
+	
+	var nbEncode = countEncodeImg();
+
+	for(var i=0;i<nbEncode;i++){
+		var jsonCurrent = {};
+		jsonCurrent.src = {
+			"processes": "split",
+			"port": "out"
+		};
+		jsonCurrent.tgt = {
+			"processes": "encode"+i,
+			"port": "in"
+		};
+		jsonCurrent.metadata = {
+			"route": "10"
+		};
+
+		jsonRet.connections.push(jsonCurrent);	
+	}
+
+	for(var i=0;i<nbEncode;i++){
+		var jsonCurrent = {};
+		jsonCurrent.src = {
+			"processes": "encode"+i,
+			"port": "out"
+		};
+		jsonCurrent.tgt = {
+			"processes": "merge",
+			"port": "in"
+		};
+		jsonCurrent.metadata = {
+			"route": "9"
+		};	
+
+		jsonRet.connections.push(jsonCurrent);
+	}
+		
 	console.log(JSON.stringify(jsonRet));
 	return jsonRet;
 }
