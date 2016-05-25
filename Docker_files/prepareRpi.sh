@@ -15,9 +15,11 @@ chmod 755 /usr/local/bin/docker-volume-glusterfs
 
 docker pull mastertheif/swarm
 docker pull mastertheif/rpi-glusterfs-rest
-docker run -d --privileged=true --net=host --restart="always" --name server_gluster -P mastertheif/rpi-glusterfs-rest
+
+crontab -l | { cat; echo "@reboot docker rm server_gluster; docker run -d --privileged=true --net=host --name server_gluster -P mastertheif/rpi-glusterfs-rest"; } | crontab -
 
 crontab -l | { cat; echo "@reboot sudo docker-volume-glusterfs -servers node1:node2:node3 &"; } | crontab -
+
 
 
 reboot

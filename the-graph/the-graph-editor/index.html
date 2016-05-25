@@ -100,6 +100,9 @@
         var loadingMessage = document.getElementById("loading-message");
         loadingMessage.innerHTML = "loading graph data...";
 
+        //Permet de load la library
+        editor.$.graph.library = loadLibrary();
+
         window.loadGraph = function (json) {
           // Remove loading message
           var loading = document.getElementById("loading");
@@ -115,24 +118,24 @@
           nav.editor = editor;
 
           // Simulate a library update
-          setTimeout(function () {
-            var originalComponent = editor.getComponent('core/Split');
-            if (!originalComponent) {
-              console.warn("Didn't find component. Something is amiss.");
-              return;
-            }
-            var component = JSON.parse(JSON.stringify(originalComponent));
-            component.icon = 'github';
-            component.inports.push({
-              name: 'supercalifragilisticexpialidocious',
-              type: 'boolean'
-            });
-            component.outports.push({
-              name: 'boo',
-              type: 'boolean'
-            });
-            editor.registerComponent(component);
-          }, 1000);
+          // setTimeout(function () {
+          //   var originalComponent = editor.getComponent('core/Split');
+          //   if (!originalComponent) {
+          //     console.warn("Didn't find component. Something is amiss.");
+          //     return;
+          //   }
+          //   var component = JSON.parse(JSON.stringify(originalComponent));
+          //   component.icon = 'github';
+          //   component.inports.push({
+          //     name: 'supercalifragilisticexpialidocious',
+          //     type: 'boolean'
+          //   });
+          //   component.outports.push({
+          //     name: 'boo',
+          //     type: 'boolean'
+          //   });
+          //   editor.registerComponent(component);
+          // }, 1000);
 
           // Simulate node icon updates
           var iconKeys = Object.keys(TheGraph.FONT_AWESOME);
