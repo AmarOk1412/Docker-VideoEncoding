@@ -1,9 +1,5 @@
 #!/bin/bash
-soft='avconv'
-#if fedora
-if [ -f /etc/redhat-release ]; then
-	soft='ffmpeg'
-fi
+soft='ffmpeg'
 
 #1: file, 2: split
 if [ "$#" -ne 1 ]; then
