@@ -6,16 +6,19 @@ class Container{
 	}
 }
 
+//Ajout manuel des images car on n'a pas accès au swarm
 var containerList = new Array();
-var ct1 = new Container("Nom1","split","exited");
-var ct2 = new Container("Nom2","encode0","running");
-var ct3 = new Container("Nom3","encode1","running");
-var ct4 = new Container("Nom3","merge","running");
-containerList.push(ct1);
-containerList.push(ct2);
-containerList.push(ct3);
-containerList.push(ct4);
 
+var ct1 = new Container("split","split","exited");
+containerList.push(ct1);
+
+for(var i=0;i<6;i++){
+	containerList.push(new Container("Nom"+i,"encode"+i,"running")); 
+}
+var ct2 = new Container("merge","merge","running");
+containerList.push(ct2);
+
+//Permet de compter le nombre d'images encode
 function countEncodeImg(){
 	var nbEncode = 0;
 	for(var i in containerList){
@@ -26,6 +29,7 @@ function countEncodeImg(){
 	return nbEncode;
 }
 
+//Permet de charger la librairie nécessaire
 function loadLibrary(){
 	var library={};
 	var nbEncode = countEncodeImg();
