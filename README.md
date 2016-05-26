@@ -1,5 +1,40 @@
 # Docker-VideoEncoding
 
+- [Docker-VideoEncoding](#docker-videoencoding)
+- [Description du projet](#description-du-projet)
+- [Architecture du projet](#architecture-du-projet)
+- [Monter sa propre instance](#monter-sa-propre-instance)
+
+  - [Préparation d'un RaspberryPi](#prparation-dun-raspberrypi)
+  - [FileUploader](#fileuploader)
+
+    - [Utilisation](#utilisation)
+    - [Fonctionnement interne](#fonctionnement-interne)
+
+  - [Encodage d'une vidéo](#encodage-dune-vido)
+
+    - [Split](#split)
+    - [Encode](#encode)
+    - [Merge](#merge)
+
+  - [DockerSwarm](#dockerswarm)
+
+    - [Utilisation](#utilisation)
+    - [Fonctionnement interne](#fonctionnement-interne)
+
+  - [The-Graph](#the-graph)
+
+    - [Installation of the graph](#installation-of-the-graph)
+    - [But du graph](#but-du-graph)
+    - [Fonctionnement interne](#fonctionnement-interne)
+
+- [Fonctionnalités](#fonctionnalits)
+
+  - [Fonctionnalités existantes](#fonctionnalits-existantes)
+  - [TODOList](#todolist)
+
+- [Licence](#licence)
+
 # Description du projet
 
 Ce projet, réalisé lors du module proejt d'ESIR 2 a pour but de réaliser un scheduling temporel de containers docker fonctionnant sur un cluster de RaspberryPi dans le but de réaliser l'encodage de vidéos.
