@@ -12,9 +12,10 @@ docker rm swarm;docker run -d --name swarm -p 2375:2375 mastetheif/swarm /root/g
 			#Ceate node replica 2 node1+node
 
 		if [[ $( diff alivehosts connectedhosts | wc -l) -gt 2 ]] ; then
-			#expand
-			#resize
-		echo test
+			#expand docker run exec
+			#resize docker run exec
+			echo test
+		fi
 		sleep 120
 	done
 else

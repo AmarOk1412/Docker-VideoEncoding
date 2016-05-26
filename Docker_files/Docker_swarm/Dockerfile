@@ -31,4 +31,6 @@ RUN go install .
 
 WORKDIR /
 
+EXPOSE 2375 4000
+
 CMD ["/bin/bash"]
