@@ -31,8 +31,4 @@ RUN go install .
 
 WORKDIR /
 
-RUN rm -r /usr/local/go
-RUN rm -r /root/gocode
-
-
 CMD ["/bin/bash"]

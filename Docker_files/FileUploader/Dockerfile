@@ -11,7 +11,7 @@ ENV admin="root"
 
 RUN apt-get update && \
 apt-get -y upgrade && \
-apt-get install -y git wget
+apt-get install -y git wget python3 docker
 RUN GIT_SSL_NO_VERIFY=true git clone https://github.com/AmarOk1412/Docker-VideoEncoding.git
 
 WORKDIR Docker-VideoEncoding
