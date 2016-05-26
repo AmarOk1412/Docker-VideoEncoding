@@ -139,14 +139,14 @@ function convertToPhotobooth(){
 			jsonRet.processes[nodeName].component=nomImg;
 			jsonRet.processes[nodeName].metadata={};
 			jsonRet.processes[nodeName].metadata.x=100; 
-			jsonRet.processes[nodeName].metadata.y=300; 
+			jsonRet.processes[nodeName].metadata.y=500; 
 			jsonRet.processes[nodeName].metadata.label=nomImg; 	
 		}
 		else{//nomImg==""merge
 			jsonRet.processes[nodeName].component=nomImg;
 			jsonRet.processes[nodeName].metadata={};
 			jsonRet.processes[nodeName].metadata.x=500; 
-			jsonRet.processes[nodeName].metadata.y=300; 
+			jsonRet.processes[nodeName].metadata.y=500; 
 			jsonRet.processes[nodeName].metadata.label=nomImg; 
 		}
 	}
