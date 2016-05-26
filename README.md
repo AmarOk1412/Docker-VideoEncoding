@@ -181,15 +181,12 @@ n images encode -> Ces images sont reliés à l'image split sur leur entrée et 
 
 The-graph fonctionne grâce à des objets JSON. En effet il faut produire les fichiers JSON qui permettent de décrire tous les noeuds et toutes les connections entre les différents noeuds. Il faut au préalable avoir défini ces noeuds en tant que "components" pour que cela fonctionne.
 
-Pour ce faire, 3 fichiers ont été modifiés pour correspondre à notre projet : 
+Pour ce faire, 2 fichiers ont été modifiés pour correspondre à notre projet : 
 
 
-read-status.js -> D
+read-status.js -> Les fonctions nécessaires au bon fonctionnement de notre graph sont définis ici. Une fonction permet de récupérer le json envoyé par la requête GET au swarm. Une fonction permettant de générer la librairie de components et une fonction permettant d'afficher les nodes ainsi que les connections entre les nodes.
 
-index.html -> Permet de générer
-
-photobooth.json.js
-
+index.html -> Permet d'appeler les fonctions définis dans read-status afin de charger le graphe.
 
 # Fonctionnalités
 
