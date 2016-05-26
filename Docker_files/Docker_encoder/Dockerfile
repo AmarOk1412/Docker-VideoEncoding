@@ -1,21 +1,14 @@
 FROM resin/rpi-raspbian:jessie
 
-#MAINTAINER Olivier Barais <barais@irisa.fr>
-MAINTAINER Team_Docker-VideoEncoding
-
-
-LABEL status="Dockerfile in development"
-LABEL description="gstreamer with hardware access"
-
-
 WORKDIR /
 
 ENV admin="root"
 
-RUN apt-get -y upgrade &&\
-apt-get update &&\
-apt-get install gstreamer1.0  libav-tools -y && \
+RUN apt-get update && apt-get -y upgrade && \
+apt-get install gstreamer1.0-tools gstreamer1.0-omx  -y && \
+apt-get install gstreamer1.0-libav gstreamer1.0-fluendo-mp3 gstreamer1.0-plugins-bad gstreamer1.0-plugins-ugly  gstreamer1.0-plugins-good  gstreamer1.0-plugins-base libav-tools -y && \
 rm -rf /var/cache/apt/*.deb*
 
 ADD ScriptEncode.sh ScriptEncode.sh
 
+CMD [ /bin/bash ]
