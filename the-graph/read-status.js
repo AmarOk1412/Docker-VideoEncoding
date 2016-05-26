@@ -6,16 +6,19 @@ class Container{
 	}
 }
 
+//Ajout manuel des images car on n'a pas accès au swarm
 var containerList = new Array();
-var ct1 = new Container("Nom1","split","exited");
-var ct2 = new Container("Nom2","encode0","running");
-var ct3 = new Container("Nom3","encode1","running");
-var ct4 = new Container("Nom3","merge","running");
-containerList.push(ct1);
-containerList.push(ct2);
-containerList.push(ct3);
-containerList.push(ct4);
 
+var ct1 = new Container("split","split","exited");
+containerList.push(ct1);
+
+for(var i=0;i<6;i++){
+	containerList.push(new Container("Nom"+i,"encode"+i,"running")); 
+}
+var ct2 = new Container("merge","merge","running");
+containerList.push(ct2);
+
+//Permet de compter le nombre d'images encode
 function countEncodeImg(){
 	var nbEncode = 0;
 	for(var i in containerList){
@@ -26,6 +29,7 @@ function countEncodeImg(){
 	return nbEncode;
 }
 
+//Permet de charger la librairie nécessaire
 function loadLibrary(){
 	var library={};
 	var nbEncode = countEncodeImg();
@@ -127,23 +131,23 @@ function convertToPhotobooth(){
 		if(nomImg.substring(0,6)=="encode"){
 			jsonRet.processes[nodeName].component="encode";
 			jsonRet.processes[nodeName].metadata={};
-			jsonRet.processes[nodeName].metadata.x=300; //A changer
-			jsonRet.processes[nodeName].metadata.y=100+(i*150); //A changer
-			jsonRet.processes[nodeName].metadata.label=nomImg; //A changer	
+			jsonRet.processes[nodeName].metadata.x=300; 
+			jsonRet.processes[nodeName].metadata.y=100+(i*150); 
+			jsonRet.processes[nodeName].metadata.label=nomImg; 	
 		}
 		else if(nomImg == "split"){
 			jsonRet.processes[nodeName].component=nomImg;
 			jsonRet.processes[nodeName].metadata={};
-			jsonRet.processes[nodeName].metadata.x=100; //A changer
-			jsonRet.processes[nodeName].metadata.y=300; //A changer
-			jsonRet.processes[nodeName].metadata.label=nomImg; //A changer	
+			jsonRet.processes[nodeName].metadata.x=100; 
+			jsonRet.processes[nodeName].metadata.y=500; 
+			jsonRet.processes[nodeName].metadata.label=nomImg; 	
 		}
 		else{//nomImg==""merge
 			jsonRet.processes[nodeName].component=nomImg;
 			jsonRet.processes[nodeName].metadata={};
-			jsonRet.processes[nodeName].metadata.x=500; //A changer
-			jsonRet.processes[nodeName].metadata.y=300; //A changer
-			jsonRet.processes[nodeName].metadata.label=nomImg; //A changer
+			jsonRet.processes[nodeName].metadata.x=500; 
+			jsonRet.processes[nodeName].metadata.y=500; 
+			jsonRet.processes[nodeName].metadata.label=nomImg; 
 		}
 	}
 	jsonRet.connections=[];
