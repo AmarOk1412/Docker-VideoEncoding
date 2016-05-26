@@ -179,9 +179,9 @@ n images encode -> Ces images sont reliés à l'image split sur leur entrée et 
 
 ### Fonctionnement interne
 
-The-graph fonctionne grâce à des objets JSON. En effet il faut produire les fichiers JSON qui permettent de décrire tous les noeuds et toutes les connections entre les différents noeuds. Il faut au préalable avoir défini ces noeuds en tant que "components" pour que cela fonctionne.
+The-graph fonctionne grâce à des objets JSON. En effet il faut produire les fichiers JSON qui permettent de décrire tous les noeuds et toutes les connections entre les différents noeuds.
 
-Pour ce faire, 3 fichiers ont été modifiés pour correspondre à notre projet : 
+3 fichiers ont été modifiés pour correspondre à notre projet : 
 
 
 read-status.js -> D

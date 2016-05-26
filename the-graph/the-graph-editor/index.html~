@@ -98,15 +98,15 @@
 
         // Component library
         var library = loadLibrary();
-  console.log(JSON.stringify(library));
+  	console.log(JSON.stringify(library));
 
-  var graph={};
+  	var graph={};
         editor.graph = graph; 
         editor.$.graph.library = library;
 
         // Load graph
         graph = convertToPhotobooth();
-  console.log(JSON.stringify(graph));
+  	console.log(JSON.stringify(graph));
         editor.graph = graph;
 
         
