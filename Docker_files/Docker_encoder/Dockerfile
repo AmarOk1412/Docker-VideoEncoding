@@ -2,6 +2,10 @@ FROM resin/rpi-raspbian:jessie
 
 WORKDIR /
 
+
+RUN echo "deb http://mirrordirector.raspbian.org/raspbian/ jessie main contrib non-free rpi" > /etc/apt/sources.list
+
+
 ENV admin="root"
 
 RUN apt-get update && apt-get -y upgrade && \
