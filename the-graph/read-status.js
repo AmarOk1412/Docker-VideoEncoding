@@ -78,7 +78,7 @@ function loadLibrary(){
 /*  
 function getStatus(){
 	var xhr = new XMLHttpRequest();
-	xhr.open('GET', "http://192.168.1.140/containers/json&all=True&size=False", true);
+	xhr.open('GET', "http://node1/containers/json&all=True&size=False", true);
 	xhr.send();
 	console.log("Envoie de la requête de récupération des status.");
 	xhr.addEventListener("readystatechange", processRequest, false);
