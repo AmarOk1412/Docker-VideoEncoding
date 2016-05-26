@@ -71,17 +71,17 @@ Ensuite, on récupère des informations sur la vidéo tel que sa durée mais ég
 Pour effectuer cela, on a utilisé la commande avprobe (installée sur les raspberry et provenant du package libav-tools).
 
 ```
-avprobe -show\_format\_entry duration -v quiet "$inputFile"
+avprobe -show_format_entry duration -v quiet "$inputFile"
 
-avprobe  -v quiet -show\_packets -of json "$inputFile" | awk '$0 ~ /"pts\_time" : "([0-9]|\.)*"/ {toPrint=$3} $0 ~ /"flags" : "K"/ {print toPrint} ' 
-| grep -oE \([0-9]\|\\\.\)*  > "$inputFile"\_key\_frame.txt
+avprobe  -v quiet -show_packets -of json "$inputFile" | awk '$0 ~ /"pts_time" : "([0-9]|\.)*"/ {toPrint=$3} $0 ~ /"flags" : "K"/ {print toPrint} ' 
+| grep -oE \([0-9]\|\\\.\)*  > "$inputFile"_key_frame.txt
 
 ```
 
 Une fois toutes ces informations obtenues, on peut alors procéder au découpage de notre vidéo. Pour cela cette fois, nous avons utilisé la commande avconv. Enfin si l'utilisateur entre en second paramètre un nombre souhaité de split supérieur au nombre total de key\_frames de notre vidéo, alors cette dernière sera découpé en cette deuxième valeur (#key\_frames).
 
 ```
-avconv -y -i "$inputFile" -ss $startTime -t "$splitTime" -codec copy "$outputFileName"\_part\_"$fileCurrentNumber".mp4
+avconv -y -i "$inputFile" -ss $startTime -t "$splitTime" -codec copy "$outputFileName"_part_"$fileCurrentNumber".mp4
 
 ```
 
@@ -105,10 +105,10 @@ Nous récupérons la valeur du bitrate sur le fichier json passé en paramètre.
 Avec cette valeur nous pouvons ensuite lancé notre commande d'encodage via cette fois la commande gst-launch-1.0 (package gstreamer1.0) où le bitrate est justement placé en otion de cette commande. Pour l'encodage, on se sert de omxh264enc qui est l'encodeur hardware présent dans nos raspberrys.
 
 ```
-gst-launch-1.0 -v filesrc location="$outputFileName"\_part\_"$2" ! decodebin ! videoconvert ! \
+gst-launch-1.0 -v filesrc location="$outputFileName"_part_"$2" ! decodebin ! videoconvert ! \
 	videoscale ! omxh264enc control-rate=1 \
 	target-bitrate="$bitRate" ! h264parse ! mp4mux ! \
-	filesink location="$outputFileName"\_part\_"$2"\_encoded.mp4
+	filesink location="$outputFileName"_part_"$2"_encoded.mp4
 ```
 
 Retour : 
