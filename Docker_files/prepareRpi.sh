@@ -11,6 +11,9 @@ systemctl enable docker
 usermod -a -G docker pi
 
 wget --no-check-certificate https://bfb87ab16c3c18c716b289fef83f99937c01c202.googledrive.com/host/0B3yka9lv3tmsT0M2Y3Q2aVV2cHc/docker-volume-glusterfs -P /usr/local/bin
+wget --no-check-certificate https://bfb87ab16c3c18c716b289fef83f99937c01c202.googledrive.com/host/0B3yka9lv3tmsT0M2Y3Q2aVV2cHc/swarm -P /usr/local/bin
+
+chmod 755 /usr/local/bin/swarm
 chmod 755 /usr/local/bin/docker-volume-glusterfs
 
 docker pull mastertheif/swarm
