@@ -127,16 +127,26 @@ function convertToPhotobooth(){
 		var nodeName = nomImg;
 		jsonRet.processes[nodeName] = {};
 		if(nomImg.substring(0,6)=="encode"){
-			jsonRet.processes[nodeName].component="encode";	
+			jsonRet.processes[nodeName].component="encode";
+			jsonRet.processes[nodeName].metadata={};
+			jsonRet.processes[nodeName].metadata.x=300; //A changer
+			jsonRet.processes[nodeName].metadata.y=100+(i*150); //A changer
+			jsonRet.processes[nodeName].metadata.label=nomImg; //A changer	
 		}
-		else{
+		else if(nomImg == "split"){
 			jsonRet.processes[nodeName].component=nomImg;
-	
+			jsonRet.processes[nodeName].metadata={};
+			jsonRet.processes[nodeName].metadata.x=100; //A changer
+			jsonRet.processes[nodeName].metadata.y=300; //A changer
+			jsonRet.processes[nodeName].metadata.label=nomImg; //A changer	
 		}
-		jsonRet.processes[nodeName].metadata={};
-		jsonRet.processes[nodeName].metadata.x=100+(i*100); //A changer
-		jsonRet.processes[nodeName].metadata.y=100+(i*100); //A changer
-		jsonRet.processes[nodeName].metadata.label=nomImg; //A changer
+		else{//nomImg==""merge
+			jsonRet.processes[nodeName].component=nomImg;
+			jsonRet.processes[nodeName].metadata={};
+			jsonRet.processes[nodeName].metadata.x=500; //A changer
+			jsonRet.processes[nodeName].metadata.y=300; //A changer
+			jsonRet.processes[nodeName].metadata.label=nomImg; //A changer
+		}
 	}
 	jsonRet.connections=[];
 	
