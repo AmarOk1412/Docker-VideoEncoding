@@ -6,19 +6,30 @@ class Container{
 	}
 }
 
+var containerList = new Array();
+var ct1 = new Container("Nom1","split","exited");
+var ct2 = new Container("Nom2","encode0","running");
+var ct3 = new Container("Nom3","encode1","running");
+var ct4 = new Container("Nom3","merge","running");
+containerList.push(ct1);
+containerList.push(ct2);
+containerList.push(ct3);
+containerList.push(ct4);
+
 function countEncodeImg(){
-	nbEncode = 0;
+	var nbEncode = 0;
 	for(var i in containerList){
 		if(containerList[i].Image.substring(0,6)=="encode"){
 			nbEncode++;
 		}
+	}	
 	return nbEncode;
 }
 
 function loadLibrary(){
 	var library={};
 	var nbEncode = countEncodeImg();
-	library.mergeComp = {
+	library.merge = {
 			"name" : "merge",
             "description" : "merge the parts of the video",
             "icon" : "camera",
@@ -29,9 +40,9 @@ function loadLibrary(){
 	};
 	for(var i=0; i<nbEncode; i++){
 			var portName = "in"+i
-			library.mergeComp.inports.push({"name" : portName, "type" : "all"})
+			library.merge.inports.push({"name" : portName, "type" : "all"})
 	}
-	library.splitComp = {			
+	library.split = {			
 			"name" : "split",
             "description" : "split the video into parts",
             "icon" : "camera",
@@ -42,9 +53,9 @@ function loadLibrary(){
 	};
 	for(var i=0; i<nbEncode; i++){
 		var portName = "out"+i
-		library.splitComp.outports.push({"name" : portName, "type" : "all"})
+		library.split.outports.push({"name" : portName, "type" : "all"})
 	}
-	library.encodeComp = {			
+	library.encode = {			
 			"name" : "encode",
             "description" : "encoding component",
             "icon" : "eye",
@@ -55,10 +66,11 @@ function loadLibrary(){
 				{"name": "out", "type": "all"}
             ]
 	};
+	console.log(JSON.stringify(library));
 	return library;
 }
 
-var containerList = new Array();
+
   
 /*  
 function getStatus(){
@@ -88,15 +100,6 @@ function getStatus(){
 	}
 }
 */
-
-var ct1 = new Container("Nom1","split","exited");
-var ct2 = new Container("Nom2","encode0","running");
-var ct3 = new Container("Nom3","encode1","running");
-var ct4 = new Container("Nom3","merge","running");
-containerList.push(ct1);
-containerList.push(ct2);
-containerList.push(ct3);
-containerList.push(ct4);
 
 
 
@@ -143,7 +146,7 @@ function convertToPhotobooth(){
 		var jsonCurrent = {};
 		jsonCurrent.src = {
 			"processes": "split",
-			"port": "out"
+			"port": "out"+i
 		};
 		jsonCurrent.tgt = {
 			"processes": "encode"+i,
@@ -164,7 +167,7 @@ function convertToPhotobooth(){
 		};
 		jsonCurrent.tgt = {
 			"processes": "merge",
-			"port": "in"
+			"port": "in"+i
 		};
 		jsonCurrent.metadata = {
 			"route": "9"
