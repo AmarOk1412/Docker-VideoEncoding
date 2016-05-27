@@ -16,7 +16,7 @@ wget --no-check-certificate https://bfb87ab16c3c18c716b289fef83f99937c01c202.goo
 chmod 755 /usr/local/bin/swarm
 chmod 755 /usr/local/bin/docker-volume-glusterfs
 
-wget --no-check-certificate https://raw.githubusercontent.com/AmarOk1412/Docker-VideoEncoding/master/Docker_files/rolling_gluster.sh -P /
+wget --no-check-certificate https://raw.githubusercontent.com/AmarOk1412/Docker-VideoEncoding/master/Docker_files/rolling_gluster.sh -O /rolling_gluster.sh 
 chmod 755 /rolling_gluster.sh
 
 crontab -l | { cat; echo "@reboot sudo /rolling_gluster.sh &"; } | crontab -
