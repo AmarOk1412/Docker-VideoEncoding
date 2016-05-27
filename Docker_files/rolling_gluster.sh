@@ -37,8 +37,8 @@ swarm manage -c state token://379789d12bda998f622148bc13274b9a &
 		curl -X GET http://pi:toor@node1:8080/api/1.0/peers | grep -o 'node[0-9]\+' > /home/pi/connectedhosts; echo node1 >> connectedhosts 
 		
 		#if no volumes created and alivehosts != node1 		diff /home/pi/alivehosts /home/pi/connectedhosts | grep -o 'node[0-9]\+' | grep -v 'node1'
-		if curl -X GET http://pi:toor@192.168.1.40:8080/api/1.0/volumes |tac | tac |grep -q '"data": \[\]' && echo -e '\a' -eq 0 ;then
-			if $(diff /home/pi/alivehosts /home/pi/connectedhosts | grep -v 'node1' | grep -q 'node[0-9]\+' ) -eq  0 ;then
+		if curl -X GET http://pi:toor@192.168.1.40:8080/api/1.0/volumes |tac | tac |grep -q '"data": \[\]' && echo -e '\a' -eq 0 ; then
+			if $(diff /home/pi/alivehosts /home/pi/connectedhosts | grep -v 'node1' | grep -q 'node[0-9]\+' ) -eq  0 ; then
 			
 			#Ceate node replica 2 node1+node
 			#select node gluster volume create node_storage replica 2 node1:/node_storage node2:/node_storage
