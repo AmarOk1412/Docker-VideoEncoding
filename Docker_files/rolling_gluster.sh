@@ -9,29 +9,29 @@ swarm join --addr=$(/sbin/ip -4 -o addr show dev eth0| awk '{split($4,a,"/");pri
 
 
 if [  "$HOSTNAME" = "node1" ] ; then
-docker pull mastertheif/rpi_merge
-docker pull mastertheif/rpi_split
+	docker pull mastertheif/rpi_merge
+	docker pull mastertheif/rpi_split
 
-cd /
+	cd /
 
-if
-apt-get update && \
-apt-get -y upgrade && \
-apt-get install -y python3 
-GIT_SSL_NO_VERIFY=true git clone https://github.com/AmarOk1412/Docker-VideoEncoding.git
+	if
+	apt-get update && \
+	apt-get -y upgrade && \
+	apt-get install -y python3 
+	GIT_SSL_NO_VERIFY=true git clone https://github.com/AmarOk1412/Docker-VideoEncoding.git
 
-cd Docker-VideoEncoding
-cd FileUploader
+	cd Docker-VideoEncoding
+	cd FileUploader
 
-wget http://node-arm.herokuapp.com/node_latest_armhf.deb
-dpkg -i node_latest_armhf.deb
-npm isntall #Yeap, it works, so...
-npm isntall jsonfile #TODO remove this line
-mkdir uploads
+	wget http://node-arm.herokuapp.com/node_latest_armhf.deb
+	dpkg -i node_latest_armhf.deb
+	npm isntall #Yeap, it works, so...
+	npm isntall jsonfile #TODO remove this line
+	mkdir uploads
 
-node Server.js &
+	node Server.js &
 
-swarm manage -c state token://379789d12bda998f622148bc13274b9a &
+	swarm manage -c state token://379789d12bda998f622148bc13274b9a &
 	while true; do
 		nmap -sP 192.168.1.* | grep -o 'node[0-9]\+' > /home/pi/alivehosts
 		curl -X GET http://pi:toor@node1:8080/api/1.0/peers | grep -o 'node[0-9]\+' > /home/pi/connectedhosts; echo node1 >> connectedhosts 
