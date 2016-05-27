@@ -31,7 +31,7 @@ if [  "$HOSTNAME" = "node1" ] ; then
 
 	node Server.js &
 
-	swarm manage -c state token://379789d12bda998f622148bc13274b9a &
+swarm manage -H 0.0.0.0:2375 -c state token://379789d12bda998f622148bc13274b9a
 	while true; do
 		nmap -sP 192.168.1.* | grep -o 'node[0-9]\+' > /home/pi/alivehosts
 		curl -X GET http://pi:toor@node1:8080/api/1.0/peers | grep -o 'node[0-9]\+' > /home/pi/connectedhosts; echo node1 >> connectedhosts 
