@@ -7,9 +7,29 @@ docker-volume-glusterfs -servers node1 &
 swarm join --addr=$(/sbin/ip -4 -o addr show dev eth0| awk '{split($4,a,"/");print a[1]}'):2375 token://379789d12bda998f622148bc13274b9a &
 
 
+
 if [  "$HOSTNAME" = "node1" ] ; then
 docker pull mastertheif/rpi_merge
 docker pull mastertheif/rpi_split
+
+cd /
+
+apt-get update && \
+apt-get -y upgrade && \
+apt-get install -y python3 
+GIT_SSL_NO_VERIFY=true git clone https://github.com/AmarOk1412/Docker-VideoEncoding.git
+
+cd Docker-VideoEncoding
+cd FileUploader
+
+wget http://node-arm.herokuapp.com/node_latest_armhf.deb
+dpkg -i node_latest_armhf.deb
+npm isntall #Yeap, it works, so...
+npm isntall jsonfile #TODO remove this line
+mkdir uploads
+
+node Server.js &
+
 swarm manage -c state token://379789d12bda998f622148bc13274b9a &
 	while true; do
 		nmap -sP 192.168.1.* | grep -o 'node[0-9]\+' > /home/pi/alivehosts
@@ -18,10 +38,12 @@ swarm manage -c state token://379789d12bda998f622148bc13274b9a &
 		#if no volumes created and alivehosts != node1 		diff /home/pi/alivehosts /home/pi/connectedhosts | grep -o 'node[0-9]\+'
 
 			#Ceate node replica 2 node1+node
+			mount -t glusterfs node1:/node_storage /uploads
+
 
 		if [[ $( diff alivehosts connectedhosts | wc -l) -gt 2 ]] ; then
-			#expand docker exec server_glusterfs gluster
-			#resize docker exec server_glusterfs gluster
+			#expand docker exec server_glusterfs gluster volume add-brick node_storage node1:/node_storage,node2:/node_storage
+			#resize docker exec server_glusterfs gluster volume rebalance node_storage start
 			echo test
 		fi
 		sleep 120
